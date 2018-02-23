@@ -28,4 +28,11 @@
         shell: bash setup.sh
         args:
           chdir: "{{ find_result.files[0].path }}"
+      - name: Copy over the private key that AT is using
+        copy:
+          src: ~/.ssh/openstack.pem
+          dest: /root/.ssh/openstack.pem
+          owner: root
+          group: root
+          mode: 0400
 

@@ -1,10 +1,10 @@
 [tower]
-tower1.{{ guid }}.internal
-tower2.{{ guid }}.internal
-tower3.{{ guid }}.internal
+"tower1.{{ guid }}.internal"
+"tower2.{{ guid }}.internal"
+"tower3.{{ guid }}.internal"
 
 [database]
-support1.{{ guid }}.internal
+"support1.{{ guid }}.internal"
 
 [all:vars]
 ansible_become=true
