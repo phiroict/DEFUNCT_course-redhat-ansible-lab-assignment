@@ -1,2 +1,2 @@
 source set-env.sh
-rsync  -avr --delete . lab7-bastion:/home/philip.rodrigues-solnet.co.nz/
+rsync  -avr --delete . lab-assignment:/home/philip.rodrigues-solnet.co.nz/
