@@ -3,7 +3,7 @@
     public:
       name: public
       networkname: ext_network
-      cidr: "10.10.10.0/24"
+      cidr: "10.10.10.0/25"
       routes:
         - destination: "0.0.0.0/0"
           nexthop: "10.10.10.0"
@@ -16,7 +16,7 @@
     private:
       name: private
       networkname: int_network
-      cidr: "20.20.20.0/24"
+      cidr: "10.10.10.128/25"
       routes:
         - destination: "0.0.0.0/0"
           nexthop: "192.168.0.0"
