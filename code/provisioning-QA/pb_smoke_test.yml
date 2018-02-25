@@ -1,0 +1,13 @@
+---
+  - name: Run smoke tests
+    hosts: all
+    become: no
+    gather_facts: False
+    roles:
+    - {role: osp-facts}
+
+  - name: Run the smoke tests
+    hosts: frontends
+    become: yes
+    roles:
+      - {name: app-app-smoke, tags: [test]}
