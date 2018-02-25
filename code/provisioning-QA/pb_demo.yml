@@ -1,6 +1,6 @@
 ---
   - name: Test to see where this is running
-    host: jumphost
+    hosts: jumphost
     become: yes
     tasks:
       - name: Where am I running.
