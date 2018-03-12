@@ -1,5 +1,10 @@
 - hosts: jumpbox
   tasks:
+  - name: Delete an existing m2.small flavor if exists
+    os_nova_flavor:
+     cloud: ospcloud
+     state: absent
+     name: m2.small
   - name: Create m2.small flavor
     os_nova_flavor:
      cloud: ospcloud
@@ -7,4 +12,4 @@
      name: m2.small
      ram: 2048
      vcpus: 1
-     disk: 5
+     disk: 10

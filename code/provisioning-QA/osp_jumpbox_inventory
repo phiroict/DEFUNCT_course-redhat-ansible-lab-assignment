@@ -1,2 +1,2 @@
 [jumpbox]
-workstation-1db6.rhpds.opentlc.com ansible_ssh_user=cloud-user
+workstation-02d7.rhpds.opentlc.com ansible_ssh_user=cloud-user

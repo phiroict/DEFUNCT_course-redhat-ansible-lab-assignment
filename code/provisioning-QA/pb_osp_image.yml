@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: jumpbox
   become: yes
   gather_facts: false
   tasks:
