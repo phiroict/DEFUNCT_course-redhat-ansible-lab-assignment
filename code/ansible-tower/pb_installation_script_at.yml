@@ -9,7 +9,7 @@
           src: https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz
           dest: /root/
           remote_src: yes
-        creates: /root/ansible-tower-setup-3.2.3
+          creates: /root/ansible-tower-setup-3.2.3
       - name: Get the folder name of the installation
         find:
           paths: /root

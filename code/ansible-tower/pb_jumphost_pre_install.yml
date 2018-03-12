@@ -1,0 +1,22 @@
+---
+  - name: Install preeqs
+    hosts: jumphost
+    become: yes
+    tasks:
+    - name: Create key path
+      file:
+        path: /var/lib/awx/.ssh
+        state: directory
+        recurse: yes
+    - name: Copy keys
+      copy:
+        src: ~/.ssh/openstack.pem
+        dest: /var/lib/awx/.ssh/
+        mode: 0400
+        owner: ec2-user
+    - name: Copy keys, secundary location
+      copy:
+        src: ~/.ssh/openstack.pem
+        dest: /home/ec2-user/.ssh/
+        mode: 0400
+        owner: ec2-user
