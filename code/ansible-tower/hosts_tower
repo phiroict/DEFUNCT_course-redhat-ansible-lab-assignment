@@ -1,16 +1,16 @@
 [tower]
-"tower1.{{ guid }}.internal"
-"tower2.{{ guid }}.internal"
-"tower3.{{ guid }}.internal"
+"tower1.25fe.internal"
+"tower2.25fe.internal"
+"tower3.25fe.internal"
 
 [database]
-"support1.{{ guid }}.internal"
+"support1.25fe.internal"
 
 [all:vars]
 ansible_become=true
 admin_password='r3dh4t1!'
 
-pg_host='support1.{{ guid }}.internal'
+pg_host='support1.25fe.internal'
 pg_port='5432'
 
 pg_database='awx'

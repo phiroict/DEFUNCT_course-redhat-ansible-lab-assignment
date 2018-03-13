@@ -2,7 +2,7 @@
   - name: Push keys to ansible tower
     hosts: tower
     become: yes
-    gather_facts: no
+    gather_facts: yes
     tasks:
       - name: Assure key directory exists
         file:
@@ -19,4 +19,10 @@
           owner: awx
           group: awx
           mode: 0400
-
+      - name: Copy configuration
+        copy:
+          src: ssh.cfg
+          dest: /var/lib/awx/.ssh/ssh.cfg
+          owner: awx
+          group: awx
+          mode: 0400
