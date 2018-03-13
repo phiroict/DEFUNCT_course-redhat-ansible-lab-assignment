@@ -24,18 +24,32 @@ openstack server list
 
 ```
 
+If there are instances in error, ansible cannot always delete them, do this by hand on the workstation by: 
+
+```bash
+# from the workstation:
+sudo -i
+cd /root
+source keystonerc_admin
+openstack server list
+# If the Status of the services are ERROR, just delete them and recreate them (cattle not pets) 
+nova delete app1
+nova delete app2
+nova delete database
+nova delete frontend
+```
 
 # Build
 
-We need to set up a new ansible tower on lab5 guid: aa0f.  Ansible tower.
-https://tower1.aa0f.example.opentlc.com
-And a openstack instance as well : 1db6                    Three tier project.
+We need to set up a new ansible tower on lab5 guid: 25fe.  Ansible tower.
+https://tower1.25fe.example.opentlc.com
+And a openstack instance as well : 02d7                    Three tier project.
 
 
 ## Server stack
 ### Ansible tower stack
 Notes:
-The keys need to be in the /var/lib/awx/SSH (openstack.pem) in there manually.
+The keys need to be in the /var/lib/awx/.ssh (openstack.pem) in there manually.
 Also, you need to have the ssh.cfg and the ansible.cfg in the root of the project, nowhere else.
 
 
@@ -80,6 +94,8 @@ From https://labs.opentlc.com/catalog/explorer
 ## provision ansible tower
 By script
 <git-assignment>/code/ansible-tower/cmd_install_tower.sh
+This downloads the ansible tower application on the jump host and sets up the inventory file to install on the three instances
+and will set up the database. 
 
 ```yaml
 
@@ -185,6 +201,17 @@ ansible:
   fail_on_errors: True
 EOF
 ```
+* Now check if the laptop has ansible 2.4 or later installed as that is needed for the openstack calls. 
+  * Ubuntu: 
+    * sudo apt-get update
+    * sudo apt-get install software-properties-common
+    * sudo apt-get install software-properties-common
+    * sudo apt-add-repository ppa:ansible/ansible
+    * sudo apt-get update
+    * sudo apt-get install ansible
+      * (You may need to change to the artful (17.10) version when 18.04 is not added yet)
+      
+      
 * Install image, from course-redhat-ansible-windows-chapter7/code/provisioning-QA/cmd_read_image.sh but run from the
 workstation.
 Runs playbook pb_read_image.yml.
@@ -208,15 +235,22 @@ course-redhat-ansible-windows-chapter7/code/provisioning-QA/cmd_create_flavor.sh
 * Create the security groups
 course-redhat-ansible-windows-chapter7/code/provisioning-QA/cmd_create_security.sh
 
-* Build instances
+* Build images
 course-redhat-ansible-lab-assignment/code/provisioning-QA/cmd_create_image.sh
+
+* Install the instances (If these fail, try with 'state: absent', or delete from the workstation with 'nova delete')
+course-redhat-ansible-lab-assignment/code/provisioning-QA/cmd_create_instances.sh
+
 
 * Install apps
 course-redhat-ansible-lab-assignment/code/provisioning-QA/cmd_install_applications.sh
 
 * Run the sanity checks
 
+* Clean up. 
+If these are all running ok, delete the servers and the application as we will trigger them from ansible tower / Jenkins.
 
+course-redhat-ansible-lab-assignment/code/provisioning-QA/cmd_delete_instances.sh
 All ok, after forwarding the ports out. 
 
 
@@ -305,3 +339,6 @@ Ansible-towlet runs:
 ```text
 <workstation-1db6.rhpds.opentlc.com> SSH: EXEC ssh -vvv -F ./ssh.cfg -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o 'IdentityFile="/var/lib/awx/.ssh/openstack.pem"' -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o User=cloud-user -o ConnectTimeout=10 -o ControlPath=/tmp/awx_101_tLH8ou/cp/%h%p%r workstation-1db6.rhpds.opentlc.com '/bin/sh -c '"'"'echo ~ && sleep 0'"'"''
 ```
+
+No resolve, decided not to use ansible tower assuming if I cannot get it to work I will sell it to customers at all, decided to do this 
+with Jenkins as that is usable by less genius people and has a better chance of support. 
